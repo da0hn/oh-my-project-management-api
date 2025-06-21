@@ -19,3 +19,9 @@ spring:
       enabled: ${PROJECT_MANAGEMENT_DOCKER_COMPOSE_ENABLED:false}
       lifecycle-management: start_only
       file: compose.yaml
+  modulith:
+    events:
+      completion-mode: update
+      externalization:
+        enabled: false
+      republish-outstanding-events-on-restart: true
