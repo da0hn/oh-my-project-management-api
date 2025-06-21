@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: project-management-api
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${PROJECT_MANAGEMENT_DATABASE_HOST:project-management-database}:${PROJECT_MANAGEMENT_DATABASE_PORT}/project_management
+    username: ${PROJECT_MANAGEMENT_DATABASE_USER:user_project_management}
+    password: ${PROJECT_MANAGEMENT_DATABASE_PASSWORD}
+  jpa:
+    open-in-view: false
+    show-sql: ${SHOW_SQL:false}
+    properties:
+      hibernate.hibernate.format_sql: true
+  threads:
+    virtual:
+      enabled: true
+  docker:
+    compose:
+      enabled: ${PROJECT_MANAGEMENT_DOCKER_COMPOSE_ENABLED:false}
+      lifecycle-management: start_only
+      file: compose.yaml
