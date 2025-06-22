@@ -1,4 +1,4 @@
-package dev.ghonda.project.management.shared.annotations;
+package dev.ghonda.project.management.shared.validators.annotations;
 
 import dev.ghonda.project.management.shared.validators.FieldsValueMatchValidator;
 import jakarta.validation.Constraint;

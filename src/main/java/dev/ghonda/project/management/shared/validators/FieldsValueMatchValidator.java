@@ -1,6 +1,6 @@
 package dev.ghonda.project.management.shared.validators;
 
-import dev.ghonda.project.management.shared.annotations.FieldsValueMatch;
+import dev.ghonda.project.management.shared.validators.annotations.FieldsValueMatch;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.extern.slf4j.Slf4j;

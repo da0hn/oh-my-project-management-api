@@ -17,7 +17,6 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.Comparator;
-import java.util.List;
 import java.util.stream.Stream;
 
 @Slf4j
@@ -77,49 +76,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             ApiFailureResponse.Type.BUSINESS
         );
 
-
         log.error("[GlobalExceptionHandler] Ocorreu um erro durante a execução de uma regra de negócio: {}", response, exception);
-
-        return ResponseEntity.status(status).body(response);
-    }
-
-    @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(
-        final MethodArgumentNotValidException exception,
-        final HttpHeaders headers,
-        final HttpStatusCode status,
-        final WebRequest request
-    ) {
-        final var validations = exception.getFieldErrors().stream()
-            .map(error -> ApiFailureResponse.Validation.builder()
-                .field(error.getField())
-                .rejectedValue(error.getRejectedValue() != null ? error.getRejectedValue().toString() : null)
-                .message(error.getDefaultMessage())
-                .build())
-            .sorted(Comparator.comparing(ApiFailureResponse.Validation::getField))
-            .toList();
-        final var globalValidations = exception.getGlobalErrors().stream()
-            .map(error -> ApiFailureResponse.Validation.builder()
-                .field(error.getObjectName())
-                .rejectedValue(null)
-                .message(error.getDefaultMessage())
-                .build())
-            .sorted(Comparator.comparing(ApiFailureResponse.Validation::getField))
-            .toList();
-
-        final var httpServletRequest = ((ServletWebRequest) request).getRequest();
-
-        final var response = ApiFailureResponse.of(
-            "Falha na validação dos dados",
-            httpServletRequest.getMethod(),
-            httpServletRequest.getRequestURI(),
-            status,
-            ApiFailureResponse.Type.VALIDATION,
-            Stream.concat(validations.stream(), globalValidations.stream())
-                .toList()
-        );
-
-        log.error("[GlobalExceptionHandler] Ocorreu um erro na validação dos dados: {}", response);
 
         return ResponseEntity.status(status).body(response);
     }
@@ -153,5 +110,46 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(status).body(response);
     }
 
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(
+        final MethodArgumentNotValidException exception,
+        final HttpHeaders headers,
+        final HttpStatusCode status,
+        final WebRequest request
+    ) {
+        final var validations = exception.getFieldErrors().stream()
+            .map(error -> ApiFailureResponse.Validation.builder()
+                .field(error.getField())
+                .rejectedValue(error.getRejectedValue() != null ? error.getRejectedValue().toString() : null)
+                .message(error.getDefaultMessage())
+                .build())
+            .sorted(Comparator.comparing(ApiFailureResponse.Validation::getField))
+            .toList();
+        final var globalValidations = exception.getGlobalErrors().stream()
+            .map(error -> ApiFailureResponse.Validation.builder()
+                .field(error.getObjectName())
+                .rejectedValue(null)
+                .message(error.getDefaultMessage())
+                .build())
+            .sorted(Comparator.comparing(ApiFailureResponse.Validation::getField))
+            .toList();
+
+        final var httpServletRequest = ((ServletWebRequest) request).getRequest();
+
+        final var responseStatus = HttpStatus.UNPROCESSABLE_ENTITY;
+        final var response = ApiFailureResponse.of(
+            "Falha na validação dos dados",
+            httpServletRequest.getMethod(),
+            httpServletRequest.getRequestURI(),
+            responseStatus,
+            ApiFailureResponse.Type.VALIDATION,
+            Stream.concat(validations.stream(), globalValidations.stream())
+                .toList()
+        );
+
+        log.error("[GlobalExceptionHandler] Ocorreu um erro na validação dos dados: {}", response);
+
+        return ResponseEntity.status(responseStatus).body(response);
+    }
 
 }

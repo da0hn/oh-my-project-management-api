@@ -22,12 +22,10 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 public abstract class Auditable {
 
-    @NotNull
     @CreatedDate
     @Column(name = "created_at", updatable = false, nullable = false)
     private LocalDateTime createdAt;
 
-    @NotNull
     @LastModifiedDate
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;

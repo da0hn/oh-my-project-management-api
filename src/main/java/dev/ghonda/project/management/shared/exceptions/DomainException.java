@@ -2,16 +2,16 @@ package dev.ghonda.project.management.shared.exceptions;
 
 import java.io.Serial;
 
-public class BusinessException extends RuntimeException {
+public abstract class DomainException extends RuntimeException {
 
     @Serial
     private static final long serialVersionUID = -312901520171766122L;
 
-    public BusinessException(final String message) {
+    protected DomainException(final String message) {
         super(message);
     }
 
-    public BusinessException(final String message, final Throwable cause) {
+    protected DomainException(final String message, final Throwable cause) {
         super(message, cause);
     }
 

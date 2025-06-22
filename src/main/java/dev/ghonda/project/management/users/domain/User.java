@@ -1,5 +1,6 @@
 package dev.ghonda.project.management.users.domain;
 
+import dev.ghonda.project.management.shared.validators.annotations.ExistsBy;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -8,6 +9,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -37,18 +41,25 @@ public class User extends Auditable implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
+    @ExistsBy(entity = User.class, field = "username")
     @Column(name = "username", unique = true, nullable = false)
     private String username;
 
     @Column(name = "full_name")
     private String fullName;
 
+    @Email
+    @NotBlank
+    @ExistsBy(entity = User.class, field = "email")
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
+    @NotBlank
     @Column(name = "password", nullable = false)
     private String password;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private Role role;
