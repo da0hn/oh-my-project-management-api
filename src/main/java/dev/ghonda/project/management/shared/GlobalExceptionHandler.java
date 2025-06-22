@@ -119,7 +119,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .toList()
         );
 
-        log.error("[GlobalExceptionHandler] Ocorreu um erro na validação dos dados: {}", response, exception);
+        log.error("[GlobalExceptionHandler] Ocorreu um erro na validação dos dados: {}", response);
 
         return ResponseEntity.status(status).body(response);
     }
@@ -148,7 +148,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             validations
         );
 
-        log.error("[GlobalExceptionHandler] Ocorreu um erro na validação dos dados: {}", response, exception);
+        log.error("[GlobalExceptionHandler] Ocorreu um erro na validação dos dados: {}", response);
 
         return ResponseEntity.status(status).body(response);
     }
