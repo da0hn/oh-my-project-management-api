@@ -25,3 +25,6 @@ spring:
       externalization:
         enabled: false
       republish-outstanding-events-on-restart: true
+  web:
+    locale: pt_BR
+    locale-resolver: accept_header
