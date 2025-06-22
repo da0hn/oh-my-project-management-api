@@ -6,8 +6,8 @@ create table users
     password   varchar(1024) not null,
     email      varchar(255) not null,
     role       varchar(30)  not null,
-    created_at date default now(),
-    updated_at date default now(),
+    created_at timestamp default now(),
+    updated_at timestamp default now(),
     unique (username),
     unique (email)
 );
