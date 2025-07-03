@@ -1,6 +1,6 @@
 package dev.ghonda.project.management.shared.validators.annotations;
 
-import dev.ghonda.project.management.shared.validators.ExistsByValidator;
+import dev.ghonda.project.management.shared.validators.AbsentNotBlankValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
@@ -11,16 +11,19 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Documented
-@Constraint(validatedBy = ExistsByValidator.class)
-@Target({ ElementType.TYPE, ElementType.RECORD_COMPONENT, ElementType.FIELD })
+@Target({
+    ElementType.TYPE,
+    ElementType.METHOD,
+    ElementType.FIELD,
+    ElementType.PARAMETER,
+    ElementType.CONSTRUCTOR,
+    ElementType.RECORD_COMPONENT
+})
+@Constraint(validatedBy = AbsentNotBlankValidator.class)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ExistsBy {
+public @interface AbsentNotBlank {
 
-    String field();
-
-    Class<?> entity();
-
-    String message() default "{value.not-exists}";
+    String message() default "must be null or not blank";
 
     Class<?>[] groups() default {};
 
