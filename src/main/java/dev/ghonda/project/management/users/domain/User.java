@@ -1,6 +1,8 @@
 package dev.ghonda.project.management.users.domain;
 
-import dev.ghonda.project.management.shared.validators.annotations.ExistsBy;
+import dev.ghonda.project.management.shared.exceptions.DomainValidationException;
+import dev.ghonda.project.management.shared.validators.annotations.AbsentNotBlank;
+import dev.ghonda.project.management.shared.validators.annotations.UniqueBy;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -24,6 +26,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -32,6 +35,10 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "users")
+@UniqueBy.Fields({
+    @UniqueBy(field = "username", message = "Username already exists"),
+    @UniqueBy(field = "email", message = "Email already exists")
+})
 public class User extends Auditable implements Serializable {
 
     @Serial
@@ -41,17 +48,16 @@ public class User extends Auditable implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @ExistsBy(entity = User.class, field = "username")
+    @NotBlank
     @Column(name = "username", unique = true, nullable = false)
     private String username;
 
+    @NotBlank
     @Column(name = "full_name")
     private String fullName;
 
     @Email
     @NotBlank
-    @ExistsBy(entity = User.class, field = "email")
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
@@ -91,6 +97,38 @@ public class User extends Auditable implements Serializable {
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+    }
+
+    public void changeUsername(final String username) {
+        if (username == null || username.isBlank()) {
+            throw new DomainValidationException("Username cannot be null or blank");
+        }
+        this.username = username;
+        this.setUpdatedAt(LocalDateTime.now());
+    }
+
+    public void changeFullName(final String fullName) {
+        if (fullName == null || fullName.isBlank()) {
+            throw new DomainValidationException("Full name cannot be null or blank");
+        }
+        this.fullName = fullName;
+        this.setUpdatedAt(LocalDateTime.now());
+    }
+
+    public void changeEmail(final String email) {
+        if (email == null || email.isBlank()) {
+            throw new DomainValidationException("Email cannot be null or blank");
+        }
+        this.email = email;
+        this.setUpdatedAt(LocalDateTime.now());
+    }
+
+    public void changeRole(final Role role) {
+        if (role == null) {
+            throw new DomainValidationException("Role cannot be null");
+        }
+        this.role = role;
+        this.setUpdatedAt(LocalDateTime.now());
     }
 
 }

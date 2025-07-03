@@ -4,7 +4,9 @@ import dev.ghonda.project.management.shared.dto.ApiFailureResponse;
 import dev.ghonda.project.management.shared.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Path;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -88,11 +90,26 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     ) {
         final var status = HttpStatus.UNPROCESSABLE_ENTITY;
         final var validations = exception.getConstraintViolations().stream()
-            .map(violation -> ApiFailureResponse.Validation.builder()
-                .field(violation.getPropertyPath().toString())
-                .rejectedValue(violation.getInvalidValue() != null ? violation.getInvalidValue().toString() : null)
-                .message(violation.getMessage())
-                .build())
+            .map(violation -> {
+                final var field = violation.getPropertyPath().toString();
+
+                var rejectedValue = violation.getInvalidValue();
+
+                // Se for a constraint estiver no nivel da classe, tentamos obter o valor do campo específico
+                if (violation.getLeafBean() != null && violation.getInvalidValue() == violation.getLeafBean()) {
+                    try {
+                        rejectedValue = new BeanWrapperImpl(violation.getLeafBean()).getPropertyValue(field);
+                    } catch (Exception e) {
+                        log.warn("[GlobalExceptionHandler] Não foi possível obter o valor do campo '{}' da entidade: {}", field, violation.getLeafBean(), e);
+                    }
+                }
+
+                return ApiFailureResponse.Validation.builder()
+                    .field(field)
+                    .rejectedValue(rejectedValue != null ? rejectedValue.toString() : null)
+                    .message(violation.getMessage())
+                    .build();
+            })
             .sorted(Comparator.comparing(ApiFailureResponse.Validation::getField))
             .toList();
 

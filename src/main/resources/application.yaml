@@ -11,6 +11,7 @@ spring:
     show-sql: ${SHOW_SQL:false}
     properties:
       hibernate.hibernate.format_sql: true
+      jakarta.persistence.validation.mode: none
   threads:
     virtual:
       enabled: true
