@@ -1,7 +1,7 @@
 package dev.ghonda.project.management.users.domain;
 
+import dev.ghonda.project.management.shared.exceptions.DomainFieldValidationException;
 import dev.ghonda.project.management.shared.exceptions.DomainValidationException;
-import dev.ghonda.project.management.shared.validators.annotations.AbsentNotBlank;
 import dev.ghonda.project.management.shared.validators.annotations.UniqueBy;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -101,7 +101,11 @@ public class User extends Auditable implements Serializable {
 
     public void changeUsername(final String username) {
         if (username == null || username.isBlank()) {
-            throw new DomainValidationException("Username cannot be null or blank");
+            DomainFieldValidationException.builder()
+                .message("Username cannot be null or blank")
+                .field("username")
+                .rejectedValue(username)
+                .throwException();
         }
         this.username = username;
         this.setUpdatedAt(LocalDateTime.now());
@@ -109,7 +113,11 @@ public class User extends Auditable implements Serializable {
 
     public void changeFullName(final String fullName) {
         if (fullName == null || fullName.isBlank()) {
-            throw new DomainValidationException("Full name cannot be null or blank");
+            DomainFieldValidationException.builder()
+                .message("Full name cannot be null or blank")
+                .field("fullName")
+                .rejectedValue(fullName)
+                .throwException();
         }
         this.fullName = fullName;
         this.setUpdatedAt(LocalDateTime.now());
@@ -117,7 +125,11 @@ public class User extends Auditable implements Serializable {
 
     public void changeEmail(final String email) {
         if (email == null || email.isBlank()) {
-            throw new DomainValidationException("Email cannot be null or blank");
+            DomainFieldValidationException.builder()
+                .message("Email cannot be null or blank")
+                .field("email")
+                .rejectedValue(email)
+                .throwException();
         }
         this.email = email;
         this.setUpdatedAt(LocalDateTime.now());
@@ -125,7 +137,10 @@ public class User extends Auditable implements Serializable {
 
     public void changeRole(final Role role) {
         if (role == null) {
-            throw new DomainValidationException("Role cannot be null");
+            DomainFieldValidationException.builder()
+                .message("Role cannot be null")
+                .field("role")
+                .throwException();
         }
         this.role = role;
         this.setUpdatedAt(LocalDateTime.now());

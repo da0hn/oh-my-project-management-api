@@ -70,6 +70,26 @@ public class ApiFailureResponse {
             .build();
     }
 
+    public static ApiFailureResponse of(
+        final String message,
+        final String method,
+        final String uri,
+        final HttpStatusCode httpStatus,
+        final Type type,
+        final Validation validation
+    ) {
+        return ApiFailureResponse.builder()
+            .message(message)
+            .timestamp(LocalDateTime.now())
+            .statusCode(httpStatus.value())
+            .status(httpStatus)
+            .type(type)
+            .path(uri)
+            .method(method)
+            .validations(List.of(validation))
+            .build();
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);

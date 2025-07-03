@@ -1,10 +1,10 @@
 package dev.ghonda.project.management.shared;
 
 import dev.ghonda.project.management.shared.dto.ApiFailureResponse;
+import dev.ghonda.project.management.shared.exceptions.DomainFieldValidationException;
 import dev.ghonda.project.management.shared.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
-import jakarta.validation.Path;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.http.HttpHeaders;
@@ -99,8 +99,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 if (violation.getLeafBean() != null && violation.getInvalidValue() == violation.getLeafBean()) {
                     try {
                         rejectedValue = new BeanWrapperImpl(violation.getLeafBean()).getPropertyValue(field);
-                    } catch (Exception e) {
-                        log.warn("[GlobalExceptionHandler] Não foi possível obter o valor do campo '{}' da entidade: {}", field, violation.getLeafBean(), e);
+                    }
+                    catch (final Exception e) {
+                        log.warn(
+                            "[GlobalExceptionHandler] Não foi possível obter o valor do campo '{}' da entidade: {}",
+                            field,
+                            violation.getLeafBean(),
+                            e
+                        );
                     }
                 }
 
@@ -123,6 +129,30 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         );
 
         log.error("[GlobalExceptionHandler] Ocorreu um erro na validação dos dados: {}", response);
+
+        return ResponseEntity.status(status).body(response);
+    }
+
+    @ExceptionHandler(DomainFieldValidationException.class)
+    public ResponseEntity<ApiFailureResponse> handleDomainFieldValidationException(
+        final DomainFieldValidationException exception,
+        final HttpServletRequest request
+    ) {
+        final var status = HttpStatus.UNPROCESSABLE_ENTITY;
+        final var response = ApiFailureResponse.of(
+            exception.getMessage(),
+            request.getMethod(),
+            request.getRequestURI(),
+            status,
+            ApiFailureResponse.Type.VALIDATION,
+            ApiFailureResponse.Validation.builder()
+                .field(exception.getField())
+                .rejectedValue(exception.getRejectedValue())
+                .message(exception.getMessage())
+                .build()
+        );
+
+        log.error("[GlobalExceptionHandler] Ocorreu um erro na validação do campo: {}", response, exception);
 
         return ResponseEntity.status(status).body(response);
     }
