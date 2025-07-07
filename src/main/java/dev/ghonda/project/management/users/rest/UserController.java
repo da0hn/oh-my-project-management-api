@@ -1,21 +1,28 @@
 package dev.ghonda.project.management.users.rest;
 
+import dev.ghonda.project.management.shared.dto.ApiCollectionPageResponse;
 import dev.ghonda.project.management.shared.dto.ApiResponse;
 import dev.ghonda.project.management.shared.dto.Resource;
 import dev.ghonda.project.management.users.rest.dto.RegisterUserPayload;
 import dev.ghonda.project.management.users.rest.dto.UpdateUserPayload;
-import dev.ghonda.project.management.users.ports.api.RegisterUserUseCase;
-import dev.ghonda.project.management.users.ports.api.UpdateUserUseCase;
+import dev.ghonda.project.management.users.rest.dto.UserDetailPayload;
+import dev.ghonda.project.management.users.usecases.RegisterUserUseCase;
+import dev.ghonda.project.management.users.usecases.SearchUserByIdUseCase;
+import dev.ghonda.project.management.users.usecases.SearchUsersUseCase;
+import dev.ghonda.project.management.users.usecases.UpdateUserUseCase;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
@@ -27,6 +34,10 @@ public class UserController {
     private final RegisterUserUseCase registerUserUseCase;
 
     private final UpdateUserUseCase updateUserUseCase;
+
+    private final SearchUserByIdUseCase searchUserByIdUseCase;
+
+    private final SearchUsersUseCase searchUsersUseCase;
 
     @PostMapping
     public ResponseEntity<ApiResponse<Resource>> registerUser(@RequestBody @Valid final RegisterUserPayload payload) {
@@ -44,6 +55,21 @@ public class UserController {
     ) {
         this.updateUserUseCase.execute(userId, payload);
         return ResponseEntity.ok(ApiResponse.of(null));
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<ApiResponse<UserDetailPayload>> searchUserById(@PathVariable final Long userId) {
+        final var response = this.searchUserByIdUseCase.execute(userId);
+        return ResponseEntity.ok(ApiResponse.of(response));
+    }
+
+    @GetMapping
+    public ResponseEntity<ApiCollectionPageResponse<UserDetailPayload>> searchAllUsers(
+        @RequestParam("search-term") final String searchTerm,
+        final Pageable pageable
+    ) {
+        final var response = this.searchUsersUseCase.execute(searchTerm, pageable);
+        return ResponseEntity.ok(ApiCollectionPageResponse.of(response));
     }
 
 }
