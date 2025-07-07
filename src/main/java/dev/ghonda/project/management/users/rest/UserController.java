@@ -6,6 +6,7 @@ import dev.ghonda.project.management.shared.dto.Resource;
 import dev.ghonda.project.management.users.rest.dto.RegisterUserPayload;
 import dev.ghonda.project.management.users.rest.dto.UpdateUserPayload;
 import dev.ghonda.project.management.users.rest.dto.UserDetailPayload;
+import dev.ghonda.project.management.users.usecases.DeleteUserUseCase;
 import dev.ghonda.project.management.users.usecases.RegisterUserUseCase;
 import dev.ghonda.project.management.users.usecases.SearchUserByIdUseCase;
 import dev.ghonda.project.management.users.usecases.SearchUsersUseCase;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,6 +42,8 @@ public class UserController {
     private final SearchUserByIdUseCase searchUserByIdUseCase;
 
     private final SearchUsersUseCase searchUsersUseCase;
+
+    private final DeleteUserUseCase deleteUserUseCase;
 
     @PostMapping
     public ResponseEntity<ApiResponse<Resource>> registerUser(@RequestBody @Valid final RegisterUserPayload payload) {
@@ -71,7 +75,18 @@ public class UserController {
         @PageableDefault(size = 15, sort = { "username", "email", "id" }, direction = Sort.Direction.ASC) final Pageable pageable
     ) {
         final var output = this.searchUsersUseCase.execute(searchTerm, pageable);
+        if (output.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                .body(ApiCollectionPageResponse.empty());
+        }
         return ResponseEntity.ok(ApiCollectionPageResponse.of(output));
+    }
+
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<ApiResponse<Void>> deleteUser(@PathVariable final Long userId) {
+        this.deleteUserUseCase.execute(userId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT)
+            .body(ApiResponse.of(null));
     }
 
 }
