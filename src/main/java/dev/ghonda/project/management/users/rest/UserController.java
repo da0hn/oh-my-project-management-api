@@ -14,6 +14,8 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,12 +51,12 @@ public class UserController {
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<ApiResponse<Void>> updateUser(
+    public ResponseEntity<ApiResponse<UserDetailPayload>> updateUser(
         @PathVariable final Long userId,
         @RequestBody @Valid final UpdateUserPayload payload
     ) {
-        this.updateUserUseCase.execute(userId, payload);
-        return ResponseEntity.ok(ApiResponse.of(null));
+        final var response = this.updateUserUseCase.execute(userId, payload);
+        return ResponseEntity.ok(ApiResponse.of(response));
     }
 
     @GetMapping("/{userId}")
@@ -65,8 +67,8 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<ApiCollectionPageResponse<UserDetailPayload>> searchAllUsers(
-        @RequestParam("search-term") final String searchTerm,
-        final Pageable pageable
+        @RequestParam(value = "search-term", required = false) final String searchTerm,
+        @PageableDefault(size = 15, sort = { "username", "email", "id" }, direction = Sort.Direction.ASC) final Pageable pageable
     ) {
         final var response = this.searchUsersUseCase.execute(searchTerm, pageable);
         return ResponseEntity.ok(ApiCollectionPageResponse.of(response));

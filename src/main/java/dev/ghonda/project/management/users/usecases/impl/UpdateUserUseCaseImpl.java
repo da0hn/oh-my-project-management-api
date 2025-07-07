@@ -6,6 +6,7 @@ import dev.ghonda.project.management.shared.validators.ValidatorService;
 import dev.ghonda.project.management.users.domain.Role;
 import dev.ghonda.project.management.users.domain.UserJpaRepository;
 import dev.ghonda.project.management.users.rest.dto.UpdateUserPayload;
+import dev.ghonda.project.management.users.rest.dto.UserDetailPayload;
 import dev.ghonda.project.management.users.usecases.UpdateUserUseCase;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +25,7 @@ public class UpdateUserUseCaseImpl implements UpdateUserUseCase {
 
     @Override
     @Transactional
-    public void execute(final Long userId, final UpdateUserPayload payload) {
+    public UserDetailPayload execute(final Long userId, final UpdateUserPayload payload) {
         if (log.isInfoEnabled()) { log.info("Iniciando atualização dos dados do usuário. userId: {}", userId); }
         if (log.isDebugEnabled()) {
             log.debug("m=execute(userId: {}, payload: {})", userId, payload);
@@ -48,6 +49,7 @@ public class UpdateUserUseCaseImpl implements UpdateUserUseCase {
         this.userJpaRepository.save(user);
 
         if (log.isInfoEnabled()) { log.info("Dados do usuário atualizados com sucesso. userId: {}", userId); }
+        return UserDetailPayload.of(user);
     }
 
 }
