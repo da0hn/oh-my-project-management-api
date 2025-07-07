@@ -55,14 +55,14 @@ public class UserController {
         @PathVariable final Long userId,
         @RequestBody @Valid final UpdateUserPayload payload
     ) {
-        final var response = this.updateUserUseCase.execute(userId, payload);
-        return ResponseEntity.ok(ApiResponse.of(response));
+        final var output = this.updateUserUseCase.execute(userId, payload);
+        return ResponseEntity.ok(ApiResponse.of(output));
     }
 
     @GetMapping("/{userId}")
     public ResponseEntity<ApiResponse<UserDetailPayload>> searchUserById(@PathVariable final Long userId) {
-        final var response = this.searchUserByIdUseCase.execute(userId);
-        return ResponseEntity.ok(ApiResponse.of(response));
+        final var output = this.searchUserByIdUseCase.execute(userId);
+        return ResponseEntity.ok(ApiResponse.of(output));
     }
 
     @GetMapping
@@ -70,8 +70,8 @@ public class UserController {
         @RequestParam(value = "search-term", required = false) final String searchTerm,
         @PageableDefault(size = 15, sort = { "username", "email", "id" }, direction = Sort.Direction.ASC) final Pageable pageable
     ) {
-        final var response = this.searchUsersUseCase.execute(searchTerm, pageable);
-        return ResponseEntity.ok(ApiCollectionPageResponse.of(response));
+        final var output = this.searchUsersUseCase.execute(searchTerm, pageable);
+        return ResponseEntity.ok(ApiCollectionPageResponse.of(output));
     }
 
 }
