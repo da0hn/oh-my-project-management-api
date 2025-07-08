@@ -1,4 +1,4 @@
-package dev.ghonda.project.management.users.usecases.impl;
+package dev.ghonda.project.management.users.ports.api.usecases.impl;
 
 import dev.ghonda.project.management.shared.annotations.UseCase;
 import dev.ghonda.project.management.shared.exceptions.ResourceNotFoundException;
