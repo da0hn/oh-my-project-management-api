@@ -13,15 +13,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
                 select user
                 from User user
                 where :searchTerm is null or
-                (
-                  lower(user.username) like lower(concat('%', cast(:searchTerm as string), '%')) and
-                  lower(user.fullName) like lower(concat('%', cast(:searchTerm as string), '%')) and
+                  lower(user.username) like lower(concat('%', cast(:searchTerm as string), '%')) or
+                  lower(user.fullName) like lower(concat('%', cast(:searchTerm as string), '%')) or
                   lower(user.email) like lower(concat('%', cast(:searchTerm as string), '%'))
-                )
+                
                 """
     )
     Page<User> findAll(String searchTerm, Pageable pageable);
-
-
 
 }
