@@ -1,7 +1,7 @@
 package dev.ghonda.project.management.users.domain;
 
+import dev.ghonda.project.management.shared.domain.Auditable;
 import dev.ghonda.project.management.shared.exceptions.DomainFieldValidationException;
-import dev.ghonda.project.management.shared.exceptions.DomainValidationException;
 import dev.ghonda.project.management.shared.validators.annotations.UniqueBy;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

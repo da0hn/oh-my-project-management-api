@@ -1,9 +1,8 @@
-package dev.ghonda.project.management.users.domain;
+package dev.ghonda.project.management.shared.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

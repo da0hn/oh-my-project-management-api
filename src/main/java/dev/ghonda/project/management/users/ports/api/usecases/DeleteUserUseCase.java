@@ -1,4 +1,4 @@
-package dev.ghonda.project.management.users.usecases;
+package dev.ghonda.project.management.users.ports.api.usecases;
 
 @FunctionalInterface
 public interface DeleteUserUseCase {

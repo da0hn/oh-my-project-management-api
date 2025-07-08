@@ -1,11 +1,12 @@
-package dev.ghonda.project.management.users.domain;
+package dev.ghonda.project.management.users.ports.api.repositories;
 
+import dev.ghonda.project.management.users.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-public interface UserJpaRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(
         value = """

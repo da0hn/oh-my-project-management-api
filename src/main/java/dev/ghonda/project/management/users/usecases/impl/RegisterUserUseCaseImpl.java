@@ -6,9 +6,9 @@ import dev.ghonda.project.management.shared.dto.SimpleResource;
 import dev.ghonda.project.management.shared.validators.ValidatorService;
 import dev.ghonda.project.management.users.domain.Role;
 import dev.ghonda.project.management.users.domain.User;
-import dev.ghonda.project.management.users.domain.UserJpaRepository;
+import dev.ghonda.project.management.users.ports.api.repositories.UserRepository;
 import dev.ghonda.project.management.users.rest.dto.RegisterUserPayload;
-import dev.ghonda.project.management.users.usecases.RegisterUserUseCase;
+import dev.ghonda.project.management.users.ports.api.usecases.RegisterUserUseCase;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 @AllArgsConstructor
 public class RegisterUserUseCaseImpl implements RegisterUserUseCase {
 
-    private UserJpaRepository userJpaRepository;
+    private UserRepository userRepository;
     private ValidatorService validatorService;
 
     @Override
@@ -40,7 +40,7 @@ public class RegisterUserUseCaseImpl implements RegisterUserUseCase {
 
         this.validatorService.validate(newUser);
 
-        this.userJpaRepository.save(newUser);
+        this.userRepository.save(newUser);
 
         return SimpleResource.of(newUser.getId());
     }
