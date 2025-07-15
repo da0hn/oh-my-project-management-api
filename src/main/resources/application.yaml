@@ -29,3 +29,12 @@ spring:
   web:
     locale: pt_BR
     locale-resolver: accept_header
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+security:
+  jwt:
+    secret: ${JWT_SECRET:ELzOVBHU0shWmo1glHZehT7wZFyuATCC69ZbU6WFLCM=}
+    expiration: ${JWT_EXPIRATION:3d}
+    refresh-secret: ${JWT_REFRESH_SECRET:yprwt/jvYbAN4w+T5aNY9JIbUncOqYk6wee/az8mzM8=}
+    refresh-expiration: ${JWT_REFRESH_EXPIRATION:7d}
