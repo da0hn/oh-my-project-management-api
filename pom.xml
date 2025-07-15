@@ -84,6 +84,11 @@
         <!-- Inicio dependências Spring Modulith -->
         <dependency>
             <groupId>org.springframework.modulith</groupId>
+            <artifactId>spring-modulith-runtime</artifactId>
+            <version>${spring-modulith.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.modulith</groupId>
             <artifactId>spring-modulith-starter-core</artifactId>
         </dependency>
         <dependency>
