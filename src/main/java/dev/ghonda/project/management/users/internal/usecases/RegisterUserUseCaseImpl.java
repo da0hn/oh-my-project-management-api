@@ -8,7 +8,7 @@ import dev.ghonda.project.management.users.domain.Role;
 import dev.ghonda.project.management.users.domain.User;
 import dev.ghonda.project.management.users.domain.UserRepository;
 import dev.ghonda.project.management.users.api.usecases.RegisterUserUseCase;
-import dev.ghonda.project.management.users.internal.usecases.dto.RegisterUserPayload;
+import dev.ghonda.project.management.users.api.usecases.dto.RegisterUserPayload;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;

@@ -1,6 +1,6 @@
 package dev.ghonda.project.management.users.api.usecases;
 
-import dev.ghonda.project.management.users.internal.usecases.dto.UserDetailPayload;
+import dev.ghonda.project.management.users.api.usecases.dto.UserDetailPayload;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
