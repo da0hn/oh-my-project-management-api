@@ -30,7 +30,7 @@
         <java.version>24</java.version>
         <spring-modulith.version>1.4.1</spring-modulith.version>
         <vavr.version>0.10.6</vavr.version>
-        <commons-lang3.version>3.17.0</commons-lang3.version>
+        <commons-lang3.version>3.18.0</commons-lang3.version>
         <jjwt-api.version>0.11.5</jjwt-api.version>
     </properties>
     <dependencies>
