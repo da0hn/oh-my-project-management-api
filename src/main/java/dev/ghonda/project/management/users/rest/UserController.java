@@ -1,16 +1,16 @@
-package dev.ghonda.project.management.users.internal.rest;
+package dev.ghonda.project.management.users.rest;
 
 import dev.ghonda.project.management.shared.dto.ApiCollectionPageResponse;
 import dev.ghonda.project.management.shared.dto.ApiResponse;
 import dev.ghonda.project.management.shared.dto.Resource;
-import dev.ghonda.project.management.users.api.usecases.dto.RegisterUserPayload;
-import dev.ghonda.project.management.users.api.usecases.dto.UpdateUserPayload;
-import dev.ghonda.project.management.users.api.usecases.dto.UserDetailPayload;
-import dev.ghonda.project.management.users.api.usecases.DeleteUserUseCase;
-import dev.ghonda.project.management.users.api.usecases.RegisterUserUseCase;
-import dev.ghonda.project.management.users.api.usecases.SearchUserByIdUseCase;
-import dev.ghonda.project.management.users.api.usecases.SearchUsersUseCase;
-import dev.ghonda.project.management.users.api.usecases.UpdateUserUseCase;
+import dev.ghonda.project.management.users.usecases.dto.RegisterUserPayload;
+import dev.ghonda.project.management.users.usecases.dto.UpdateUserPayload;
+import dev.ghonda.project.management.users.usecases.dto.UserDetailPayload;
+import dev.ghonda.project.management.users.usecases.DeleteUserUseCase;
+import dev.ghonda.project.management.users.usecases.RegisterUserUseCase;
+import dev.ghonda.project.management.users.usecases.SearchUserByIdUseCase;
+import dev.ghonda.project.management.users.usecases.SearchUsersUseCase;
+import dev.ghonda.project.management.users.usecases.UpdateUserUseCase;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

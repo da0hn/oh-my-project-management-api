@@ -1,4 +1,4 @@
-package dev.ghonda.project.management.users.api.usecases.dto;
+package dev.ghonda.project.management.users.usecases.dto;
 
 import dev.ghonda.project.management.shared.validators.annotations.EnumValue;
 import dev.ghonda.project.management.shared.validators.annotations.FieldsValueMatch;

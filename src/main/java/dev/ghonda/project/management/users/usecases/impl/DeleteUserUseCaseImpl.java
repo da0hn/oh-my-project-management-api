@@ -1,8 +1,8 @@
-package dev.ghonda.project.management.users.internal.usecases;
+package dev.ghonda.project.management.users.usecases.impl;
 
 import dev.ghonda.project.management.shared.annotations.UseCase;
 import dev.ghonda.project.management.users.domain.UserRepository;
-import dev.ghonda.project.management.users.api.usecases.DeleteUserUseCase;
+import dev.ghonda.project.management.users.usecases.DeleteUserUseCase;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;

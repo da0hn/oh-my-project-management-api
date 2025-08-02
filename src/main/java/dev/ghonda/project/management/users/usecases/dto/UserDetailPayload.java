@@ -1,4 +1,4 @@
-package dev.ghonda.project.management.users.api.usecases.dto;
+package dev.ghonda.project.management.users.usecases.dto;
 
 import dev.ghonda.project.management.users.domain.Role;
 import dev.ghonda.project.management.users.domain.User;
