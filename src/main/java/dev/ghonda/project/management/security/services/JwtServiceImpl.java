@@ -1,7 +1,6 @@
-package dev.ghonda.project.management.security.internal.services;
+package dev.ghonda.project.management.security.services;
 
-import dev.ghonda.project.management.security.api.services.JwtService;
-import dev.ghonda.project.management.security.api.JwtProperties;
+import dev.ghonda.project.management.security.configuration.properties.JwtProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;

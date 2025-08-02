@@ -1,4 +1,4 @@
-package dev.ghonda.project.management.security.api.services;
+package dev.ghonda.project.management.security.services;
 
 import lombok.Builder;
 import org.springframework.security.core.userdetails.UserDetails;

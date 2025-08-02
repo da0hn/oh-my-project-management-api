@@ -1,4 +1,4 @@
-package dev.ghonda.project.management.security.api;
+package dev.ghonda.project.management.security.configuration.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

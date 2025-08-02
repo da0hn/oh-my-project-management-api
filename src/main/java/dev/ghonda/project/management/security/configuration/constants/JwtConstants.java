@@ -1,4 +1,4 @@
-package dev.ghonda.project.management.security.internal.constants;
+package dev.ghonda.project.management.security.configuration.constants;
 
 public final class JwtConstants {
 

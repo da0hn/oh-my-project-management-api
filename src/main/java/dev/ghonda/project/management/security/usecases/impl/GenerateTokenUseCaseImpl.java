@@ -1,9 +1,9 @@
-package dev.ghonda.project.management.security.internal.usecases;
+package dev.ghonda.project.management.security.usecases.impl;
 
-import dev.ghonda.project.management.security.api.services.JwtService;
-import dev.ghonda.project.management.security.api.usecases.GenerateTokenUseCase;
-import dev.ghonda.project.management.security.api.usecases.dto.LoginDetailPayload;
-import dev.ghonda.project.management.security.api.usecases.dto.LoginPayload;
+import dev.ghonda.project.management.security.services.JwtService;
+import dev.ghonda.project.management.security.usecases.GenerateTokenUseCase;
+import dev.ghonda.project.management.security.usecases.dto.LoginDetailPayload;
+import dev.ghonda.project.management.security.usecases.dto.LoginPayload;
 import dev.ghonda.project.management.shared.annotations.UseCase;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

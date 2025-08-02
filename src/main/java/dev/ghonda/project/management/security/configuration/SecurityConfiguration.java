@@ -1,6 +1,7 @@
-package dev.ghonda.project.management.security.internal.configuration;
+package dev.ghonda.project.management.security.configuration;
 
-import dev.ghonda.project.management.security.internal.filters.JwtAuthenticationFilter;
+import dev.ghonda.project.management.security.configuration.filters.JwtAuthenticationFilter;
+import dev.ghonda.project.management.security.usecases.SearchUserDetailsUseCase;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +13,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -53,6 +55,11 @@ public class SecurityConfiguration {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .addFilterBefore(this.jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
+    }
+
+    @Bean
+    public UserDetailsService userDetailsService(final SearchUserDetailsUseCase searchUserDetailsUseCase) {
+        return searchUserDetailsUseCase::execute;
     }
 
 }

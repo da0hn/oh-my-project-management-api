@@ -1,4 +1,4 @@
-package dev.ghonda.project.management.security.api.usecases.dto;
+package dev.ghonda.project.management.security.usecases.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;

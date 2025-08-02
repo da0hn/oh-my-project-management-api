@@ -1,4 +1,4 @@
-package dev.ghonda.project.management.security.internal.spi.service;
+package dev.ghonda.project.management.security.usecases.dto;
 
 import dev.ghonda.project.management.users.domain.User;
 import org.springframework.security.core.GrantedAuthority;

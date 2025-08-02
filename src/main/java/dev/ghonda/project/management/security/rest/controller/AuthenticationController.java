@@ -1,4 +1,4 @@
-package dev.ghonda.project.management.security.internal.rest.controller;
+package dev.ghonda.project.management.security.rest.controller;
 
 import dev.ghonda.project.management.shared.dto.ApiResponse;
 import lombok.AllArgsConstructor;

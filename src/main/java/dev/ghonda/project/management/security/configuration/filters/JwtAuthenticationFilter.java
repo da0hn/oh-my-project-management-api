@@ -1,7 +1,7 @@
-package dev.ghonda.project.management.security.internal.filters;
+package dev.ghonda.project.management.security.configuration.filters;
 
-import dev.ghonda.project.management.security.internal.constants.JwtConstants;
-import dev.ghonda.project.management.security.api.services.JwtService;
+import dev.ghonda.project.management.security.configuration.constants.JwtConstants;
+import dev.ghonda.project.management.security.services.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
