@@ -23,7 +23,7 @@ public class GenerateRefreshTokenUseCaseImpl implements GenerateRefreshTokenUseC
         final var username = this.jwtService.extractUsername(payload.refreshToken());
         final var userDetails = this.searchUserDetailsUseCase.execute(username);
 
-        if (this.jwtService.validateToken(payload.refreshToken(), userDetails)) {
+        if (!this.jwtService.validateToken(payload.refreshToken(), userDetails)) {
             throw new RefreshTokenInvalidException("Refresh token is invalid or expired");
         }
 
