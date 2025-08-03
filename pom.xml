@@ -28,9 +28,10 @@
     </scm>
     <properties>
         <java.version>24</java.version>
-        <spring-modulith.version>1.4.0</spring-modulith.version>
+        <spring-modulith.version>1.4.1</spring-modulith.version>
         <vavr.version>0.10.6</vavr.version>
-        <commons-lang3.version>3.17.0</commons-lang3.version>
+        <commons-lang3.version>3.18.0</commons-lang3.version>
+        <jjwt-api.version>0.11.5</jjwt-api.version>
     </properties>
     <dependencies>
         <dependency>
@@ -57,14 +58,6 @@
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-database-postgresql</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.modulith</groupId>
-            <artifactId>spring-modulith-starter-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.modulith</groupId>
-            <artifactId>spring-modulith-starter-jpa</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>io.vavr</groupId>
@@ -88,6 +81,20 @@
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <!-- Inicio dependências Spring Modulith -->
+        <dependency>
+            <groupId>org.springframework.modulith</groupId>
+            <artifactId>spring-modulith-runtime</artifactId>
+            <version>${spring-modulith.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.modulith</groupId>
+            <artifactId>spring-modulith-starter-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.modulith</groupId>
+            <artifactId>spring-modulith-starter-jpa</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.modulith</groupId>
             <artifactId>spring-modulith-actuator</artifactId>
@@ -95,9 +102,40 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.modulith</groupId>
+            <artifactId>spring-modulith-events-api</artifactId>
+            <version>${spring-modulith.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.modulith</groupId>
             <artifactId>spring-modulith-observability</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <!-- Fim dependências Spring Modulith -->
+
+        <!-- Inicio dependências Segurança -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>${jjwt-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>${jjwt-api.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>${jjwt-api.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <!-- Fim dependências Segurança -->
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
