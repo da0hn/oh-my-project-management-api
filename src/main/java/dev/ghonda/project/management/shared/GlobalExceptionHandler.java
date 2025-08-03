@@ -1,8 +1,14 @@
 package dev.ghonda.project.management.shared;
 
+import dev.ghonda.project.management.security.exceptions.RefreshTokenInvalidException;
 import dev.ghonda.project.management.shared.dto.ApiFailureResponse;
 import dev.ghonda.project.management.shared.exceptions.DomainFieldValidationException;
 import dev.ghonda.project.management.shared.exceptions.ResourceNotFoundException;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.security.SignatureException;
+import io.jsonwebtoken.security.WeakKeyException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
@@ -157,6 +163,37 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(status).body(response);
     }
 
+    @ExceptionHandler({
+        SignatureException.class,
+        ExpiredJwtException.class,
+        MalformedJwtException.class,
+        UnsupportedJwtException.class,
+        WeakKeyException.class
+    })
+    public ResponseEntity<ApiFailureResponse> handleJwtExceptions(
+        final RuntimeException ex, final HttpServletRequest request) {
+
+        final String mensagem = switch (ex) {
+            case final SignatureException _ -> "Assinatura do token JWT inválida.";
+            case final ExpiredJwtException _ -> "Token JWT expirado.";
+            case final MalformedJwtException _ -> "Token JWT malformado.";
+            case final UnsupportedJwtException _ -> "Tipo de token JWT não suportado.";
+            case final WeakKeyException _ -> "Chave criptográfica do JWT é fraca ou inválida.";
+            case null, default -> "Erro de validação do token JWT.";
+        };
+
+        final var status = HttpStatus.UNAUTHORIZED;
+        final ApiFailureResponse response = ApiFailureResponse.of(
+            mensagem,
+            request.getMethod(),
+            request.getRequestURI(),
+            status,
+            ApiFailureResponse.Type.AUTH
+        );
+
+        return ResponseEntity.status(status).body(response);
+    }
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
         final MethodArgumentNotValidException exception,
@@ -197,6 +234,25 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         log.error("[GlobalExceptionHandler] Ocorreu um erro na validação dos dados: {}", response);
 
         return ResponseEntity.status(responseStatus).body(response);
+    }
+
+    @ExceptionHandler(RefreshTokenInvalidException.class)
+    public ResponseEntity<ApiFailureResponse> handleRefreshTokenInvalidException(
+        final RefreshTokenInvalidException exception,
+        final HttpServletRequest request
+    ) {
+        final var status = HttpStatus.UNAUTHORIZED;
+        final var response = ApiFailureResponse.of(
+            "Token de atualização informado não é válido ou está expirado",
+            request.getMethod(),
+            request.getRequestURI(),
+            status,
+            ApiFailureResponse.Type.AUTH
+        );
+
+        log.error("[GlobalExceptionHandler] Ocorreu um erro com o token de atualização: {}", response, exception);
+
+        return ResponseEntity.status(status).body(response);
     }
 
 }

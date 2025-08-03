@@ -1,11 +1,11 @@
 package dev.ghonda.project.management.security.usecases;
 
-import dev.ghonda.project.management.security.usecases.dto.LoginDetailPayload;
-import dev.ghonda.project.management.security.usecases.dto.LoginPayload;
+import dev.ghonda.project.management.security.usecases.dto.TokenDetailPayload;
+import dev.ghonda.project.management.security.usecases.dto.GenerateTokenPayload;
 
 @FunctionalInterface
 public interface GenerateTokenUseCase {
 
-    LoginDetailPayload execute(LoginPayload payload);
+    TokenDetailPayload execute(GenerateTokenPayload payload);
 
 }

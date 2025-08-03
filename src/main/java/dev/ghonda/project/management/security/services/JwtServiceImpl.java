@@ -2,14 +2,10 @@ package dev.ghonda.project.management.security.services;
 
 import dev.ghonda.project.management.security.configuration.properties.JwtProperties;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.security.SecurityException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
@@ -36,30 +32,12 @@ public class JwtServiceImpl implements JwtService {
 
     @Override
     public boolean validateToken(final String token, final UserDetails userDetails) {
-        try {
-            final String username = this.extractUsername(token);
-            Jwts.parserBuilder()
-                .setSigningKey(this.getSignKey())
-                .build()
-                .parseClaimsJws(token);
-            return (username.equals(userDetails.getUsername()) && !this.isTokenExpired(token));
-        }
-        catch (final SecurityException | MalformedJwtException e) {
-            log.error("Invalid JWT signature or format", e);
-            return false;
-        }
-        catch (final ExpiredJwtException e) {
-            log.error("Token expired", e);
-            return false;
-        }
-        catch (final UnsupportedJwtException e) {
-            log.error("Unsupported JWT token", e);
-            return false;
-        }
-        catch (final IllegalArgumentException e) {
-            log.error("JWT claims string is empty", e);
-            return false;
-        }
+        final String username = this.extractUsername(token);
+        Jwts.parserBuilder()
+            .setSigningKey(this.getSignKey())
+            .build()
+            .parseClaimsJws(token);
+        return (username.equals(userDetails.getUsername()) && !this.isTokenExpired(token));
     }
 
     @Override

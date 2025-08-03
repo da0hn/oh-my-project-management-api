@@ -2,10 +2,8 @@ package dev.ghonda.project.management.security.usecases.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record LoginPayload(
+public record GenerateRefreshTokenPayload(
     @NotBlank
-    String username,
-    @NotBlank
-    String password
+    String refreshToken
 ) {
 }
